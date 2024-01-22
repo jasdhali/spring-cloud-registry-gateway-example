@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: spring-cloud-eureka-client-one
+
+server:
+  port: 0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://spring-cloud-eureka-registry-ser-env.eba-vej4jhgx.us-east-1.elasticbeanstalk.com/eureka}
+  instance:
+    preferIpAddress: true

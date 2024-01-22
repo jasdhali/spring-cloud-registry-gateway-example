@@ -1,0 +1,42 @@
+version: "3.4"
+services:
+ registration:
+  image: jasdhali/spring-cloud-eureka-registry:1.0.0
+  ports:
+   - "8761:8761"
+ api-gateway:
+  image: jasdhali/spring-cloud-eureka-api-gateway:1.0.0
+  ports:
+   - "0:8080"
+  links:
+   - registration
+  environment:
+   - JAVA_OPTS=
+     -DEUREKA_URI=http://registration:8761/eureka
+  depends_on:
+   - registration
+ client-one:
+  image: jasdhali/spring-cloud-eureka-client-one:1.0.0
+  ports:
+   - "8081:8081"
+  links:
+   - registration
+  environment:
+   - JAVA_OPTS=
+     -DEUREKA_URI=http://registration:8761/eureka
+  depends_on:
+   - registration
+   - api-gateway
+ client-two:
+  image: jasdhali/spring-cloud-eureka-client-two:1.0.0
+  ports:
+   - "8082:8082"
+  links:
+   - registration
+  environment:
+   - JAVA_OPTS=
+     -DEUREKA_URI=http://registration:8761/eureka
+  depends_on:
+   - registration
+   - api-gateway
+   - client-one
